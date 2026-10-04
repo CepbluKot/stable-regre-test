@@ -12,7 +12,6 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from anomaly_explorer import Config, detect
-from anomaly_explorer.replay import chronological_prefix, initial_cursor, next_cursor
 from anomaly_explorer.visualization import gaussian_reference_interval
 
 ROOT = Path(__file__).resolve().parent
@@ -130,8 +129,6 @@ signature = (
 
 if run:
     st.session_state.pop("analysis", None)
-    st.session_state.pop("source_frame", None)
-    st.session_state.pop("replay_state", None)
     try:
         raw = pd.read_csv(upload if upload is not None else sample)
         cfg = Config(
@@ -154,7 +151,6 @@ if run:
             upload.name if upload is not None else sample.name,
             signature,
         )
-        st.session_state.source_frame = raw
     except (ValueError, TypeError, OSError, pd.errors.ParserError) as exc:
         st.error(f"Could not analyze this CSV: {exc}")
 
@@ -166,189 +162,12 @@ result, source_name, previous_signature = st.session_state.analysis
 if signature != previous_signature:
     st.warning("Analysis settings changed. Select Run analysis to update the results.")
     st.stop()
-if "source_frame" not in st.session_state:
-    # Existing Streamlit sessions can survive a code reload from the pre-replay version.
-    st.session_state.source_frame = pd.read_csv(
-        upload if upload is not None else sample
-    )
 p = result.points.sort_values("timestamp", kind="stable").reset_index(drop=True)
 meta = result.metadata
 
-live_tab, results_tab, evaluation_tab, data_tab = st.tabs(
-    ["Live replay", "Results", "Evaluation", "Data and export"]
+results_tab, evaluation_tab, data_tab = st.tabs(
+    ["Results", "Evaluation", "Data and export"]
 )
-with live_tab:
-
-    @st.fragment(run_every="1s")
-    def render_live_replay():
-        source = st.session_state.source_frame
-        replay_config = Config(**result.metadata["configuration"])
-        total = len(source)
-        minimum_context = (
-            3 * replay_config.order + 1
-            if replay_config.model in ("ar", "stable_ar")
-            else max(
-                3,
-                3 * replay_config.season_duration_ms // meta["step_ms"],
-            )
-        )
-        start = initial_cursor(total, minimum_context)
-        st.caption(
-            f"Replay of {source_name}, not a connected live sensor. "
-            "The model refits using only observations revealed so far; just this tab refreshes."
-        )
-        if start is None:
-            st.info(
-                "This series has no spare observations after the model's required history."
-            )
-            return
-
-        state = st.session_state.get("replay_state")
-        if state is None or state["signature"] != signature:
-            state = {
-                "signature": signature,
-                "start": start,
-                "cursor": start,
-                "playing": True,
-            }
-            st.session_state.replay_state = state
-
-        play_col, speed_col, restart_col = st.columns([1, 2, 1])
-        if play_col.button(
-            "Pause" if state["playing"] else "Play", key="replay_toggle"
-        ):
-            state["playing"] = not state["playing"]
-        speed = speed_col.select_slider(
-            "Points per second", options=[1, 5, 20], value=5, key="replay_speed"
-        )
-        restart = restart_col.button("Restart", key="replay_restart")
-        if restart:
-            state["cursor"] = state["start"]
-            state["playing"] = True
-        else:
-            state["cursor"] = next_cursor(
-                state["cursor"], total, state["start"], speed, state["playing"]
-            )
-
-        seen = chronological_prefix(source, state["cursor"])
-        try:
-            live_result = detect(seen, replay_config)
-        except ValueError as exc:
-            st.warning(f"Replay needs more model context: {exc}")
-            state["playing"] = False
-            return
-
-        st.progress(
-            state["cursor"] / total,
-            text=f"{state['cursor']:,} / {total:,} observations revealed",
-        )
-        live_points = live_result.points.sort_values("timestamp", kind="stable").tail(
-            240
-        )
-        summary_a, summary_b, summary_c = st.columns(3)
-        summary_a.metric(
-            "Last observation",
-            pd.to_datetime(seen.timestamp.iloc[-1], unit="ms", utc=True).strftime(
-                "%Y-%m-%d %H:%M UTC"
-            ),
-        )
-        summary_b.metric("Anomalies in view", int(live_points.is_anomaly.sum()))
-        summary_c.metric(
-            "Current alert",
-            live_result.alert["status"],
-            f"{live_result.alert['fraction'] * 100:.1f}% of recent points",
-        )
-
-        time_axis = pd.to_datetime(live_points.timestamp, unit="ms", utc=True)
-        fig = go.Figure()
-        fig.add_trace(
-            go.Scatter(
-                x=time_axis,
-                y=live_points.upper_bound,
-                mode="lines",
-                line={"width": 0},
-                showlegend=False,
-                hoverinfo="skip",
-            )
-        )
-        fig.add_trace(
-            go.Scatter(
-                x=time_axis,
-                y=live_points.lower_bound,
-                mode="lines",
-                line={"width": 0},
-                fill="tonexty",
-                fillcolor="rgba(40,120,220,.20)",
-                name="Anomaly threshold band",
-                hoverinfo="skip",
-            )
-        )
-        reference_low, reference_high = gaussian_reference_interval(
-            live_points.expected_value, live_points.sigma
-        )
-        fig.add_trace(
-            go.Scatter(
-                x=time_axis,
-                y=reference_high,
-                mode="lines",
-                line={"width": 0},
-                showlegend=False,
-                hoverinfo="skip",
-            )
-        )
-        fig.add_trace(
-            go.Scatter(
-                x=time_axis,
-                y=reference_low,
-                mode="lines",
-                line={"width": 0},
-                fill="tonexty",
-                fillcolor="rgba(33,161,121,.25)",
-                name="Approx. 95% interval",
-                hoverinfo="skip",
-            )
-        )
-        fig.add_trace(
-            go.Scatter(
-                x=time_axis,
-                y=live_points.expected_value,
-                name="Expected",
-                line={"color": "#3366cc", "width": 2},
-            )
-        )
-        fig.add_trace(
-            go.Scatter(
-                x=time_axis,
-                y=live_points.value_0,
-                name="Observed",
-                line={"color": "#bfc7d5", "width": 1.5},
-            )
-        )
-        anomalous = live_points.loc[live_points.is_anomaly]
-        if len(anomalous):
-            fig.add_trace(
-                go.Scatter(
-                    x=pd.to_datetime(anomalous.timestamp, unit="ms", utc=True),
-                    y=anomalous.value_0,
-                    name="Anomalies",
-                    mode="markers",
-                    marker={"color": "#e45756", "size": 7},
-                )
-            )
-        fig.update_layout(
-            height=440,
-            margin={"l": 20, "r": 20, "t": 30, "b": 20},
-            legend={"orientation": "h", "y": 1.08},
-            xaxis_title="Time (UTC)",
-            yaxis_title="Original value",
-            hovermode="x unified",
-        )
-        st.plotly_chart(fig, width="stretch", key="live_replay_chart")
-        st.caption(
-            "The chart follows the newest 240 observed points. The blue band sets flags; the green interval is an uncalibrated 95% reference guide."
-        )
-
-    render_live_replay()
 with results_tab:
     st.subheader(source_name)
     a, b, c, d, e = st.columns(5)

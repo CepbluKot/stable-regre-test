@@ -33,14 +33,15 @@ def test_labeled_upload_and_invalid_upload_replace_results():
     assert app.error and not app.metric
 
 
-def test_live_replay_is_available_after_analysis():
+def test_results_remain_static_after_analysis():
     app = AppTest.from_file(str(APP), default_timeout=20).run()
     app.button[0].click().run()
-    assert any(tab.label == "Live replay" for tab in app.tabs)
-    assert any("Replay" in item.value for item in app.get("caption"))
-    assert [m.label for m in app.tabs[0].metric] == [
-        "Last observation",
-        "Anomalies in view",
-        "Current alert",
+    assert [tab.label for tab in app.tabs] == [
+        "Results",
+        "Evaluation",
+        "Data and export",
     ]
-    assert any(m.label == "Observed points" for m in app.tabs[1].metric)
+    assert any(m.label == "Observed points" for m in app.tabs[0].metric)
+    assert not any(
+        button.label in {"Play", "Pause", "Restart"} for button in app.button
+    )
