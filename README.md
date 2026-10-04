@@ -2,6 +2,13 @@
 
 A CPU-only, stateless Python implementation of the detector concepts in [Uspenskii's Anomaly-Detection-Demo](https://github.com/wwwwwert/Anomaly-Detection-Demo/tree/48400cd4a180adad2f294a9030214b0e6347ac54). It includes ordinary autoregression, stable autoregression, median seasonal decomposition, a recent-window alert preview, optional-label evaluation, and a Streamlit results page. The UI runs locally; no monitoring service or notification destination is connected.
 
+## Documentation
+
+- [User guide](docs/user-guide.md): setup, CSV format, automatic time-grid regularization, controls, charts, exports, and common errors.
+- [Technical reference](docs/technical-reference.md): data flow, configuration, model and scoring rules, output fields, alerts, and label metrics.
+- [Verification guide](docs/verification.md): tests, manual acceptance checks, benchmark reproduction, and outstanding review gaps.
+- [Source mapping](docs/source-mapping.md): reference material and explicit implementation choices.
+
 ## Install and run
 
 Python 3.11+ is required. From this directory:
@@ -11,7 +18,7 @@ uv sync --extra dev --locked
 uv run streamlit run app.py --server.address 127.0.0.1
 ```
 
-Open the printed localhost address. The four original sample CSVs are ready in the sidebar. You can also upload a CSV with `timestamp,value_0` and an optional `label` (0/1). Timestamps are Unix milliseconds. Use **Run analysis** after choosing settings. Changing any setting hides the previous result until rerun. The Results tab has the full observed values, expected range, anomaly points, scores, alert preview and anomaly intervals. Evaluation appears only if labels are supplied. Data and export has the original-row table and CSV/JSON downloads.
+Open the printed localhost address. The four original sample CSVs are ready in the sidebar. You can also upload a CSV with `timestamp,value_0` and an optional `label` (0/1). Timestamps are Unix milliseconds. Use **Run analysis** after choosing settings. Changing any setting hides the previous result until rerun. Charts update only when you run analysis; there is no timed replay. The Results tab has the full observed values, expected range, anomaly points, scores, alert preview and anomaly intervals. Evaluation appears only if labels are supplied. Data and export has the original-row table and CSV/JSON downloads.
 
 The chart also shows a green **approximate 95% normal-reference interval**, computed as `expected ± 1.95996 × model sigma`. It is a visual guide, not a calibrated statistical confidence or prediction interval; no empirical coverage is claimed. The blue anomaly threshold band remains `expected ± threshold × sigma` and continues to determine flags and alerts. The reference interval is display-only and is not added to exports.
 
@@ -58,4 +65,4 @@ Source CSVs are redistributed under the author's [MIT license](LICENSE). The imp
 
 ## Project materials
 
-The original [implementation assignment](docs/assignment/01-implementation-prompt.md), [independent review assignment](docs/assignment/02-independent-review-prompt.md), and [context handoff](docs/assignment/00-context-and-handoff.md) are included alongside the supplied [slides](docs/reference/uspensky-anomaly-detection-slides.pdf) and [transcript](docs/reference/uspensky-anomaly-detection-subtitles.txt). Paths inside the two assignment prompts were adapted to this repository. The [self-audit report](artifacts/audit/acceptance-report.md) records completed checks and the remaining independent verification gaps. `dist/` preserves the original handoff archives; the repository root is the editable source of truth.
+The original [implementation assignment](docs/assignment/01-implementation-prompt.md), [independent review assignment](docs/assignment/02-independent-review-prompt.md), and [context handoff](docs/assignment/00-context-and-handoff.md) are included alongside the supplied [slides](docs/reference/uspensky-anomaly-detection-slides.pdf) and [transcript](docs/reference/uspensky-anomaly-detection-subtitles.txt). Paths inside the two assignment prompts were adapted to this repository. The [self-audit report](artifacts/audit/acceptance-report.md) records completed checks and the remaining independent verification gaps. `dist/` contains handoff archives; the repository root is the editable source of truth.
