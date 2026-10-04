@@ -45,7 +45,7 @@ Interpolation is for model fitting only. The result has one row per **actual inp
 | Control | Effect |
 |---|---|
 | Model | `stable_ar` (default), `ar`, or `seasonal`. See [technical reference](technical-reference.md) for how they differ. |
-| Threshold | Width of the blue anomaly band in multiples of model uncertainty; default 3. A point is flagged only when its score is **strictly greater** than the threshold. |
+| Threshold | Width of the blue anomaly band in multiples of model uncertainty; UI range 0.5–16, default 3. A point is flagged only when its score is **strictly greater** than the threshold. |
 | Anomalous points for alert | Percentage required in the recent window; default 50%. The fraction must be **strictly greater** than this setting. |
 | Recent window | Duration of the latest alert preview; default 30 minutes. It does not limit the fitted history. |
 | Direction | Flag both sides, only above expected, or only below expected. |

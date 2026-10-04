@@ -45,7 +45,7 @@ with st.sidebar:
             "ar": "Ordinary autoregression",
         }[v],
     )
-    threshold = st.slider("Threshold (range width)", 0.5, 8.0, 3.0, 0.1)
+    threshold = st.slider("Threshold (range width)", 0.5, 16.0, 3.0, 0.1)
     percentage = st.slider("Anomalous points for alert (%)", 0, 100, 50)
     window_minutes = st.number_input(
         "Recent window (minutes)", min_value=1, max_value=10080, value=30, step=5
