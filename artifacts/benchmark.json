@@ -1,0 +1,440 @@
+{
+  "environment": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "processor": "AMD Ryzen 5 PRO 4650U with Radeon Graphics",
+    "numpy": "2.5.3",
+    "pandas": "2.3.3",
+    "sklearn": "1.9.1",
+    "statsmodels": "0.15.0",
+    "streamlit": "1.65.0",
+    "plotly": "6.9.0",
+    "thread_settings": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  "cases": [
+    {
+      "file": "time_series_0.csv",
+      "model": "ar",
+      "rows": 4600,
+      "grid": 4608,
+      "configuration": {
+        "model": "ar",
+        "threshold": 3.0,
+        "percentage": 50.0,
+        "window_duration_ms": 1800000,
+        "direction": "both",
+        "order": 20,
+        "gamma": 1.0,
+        "alpha": 0.9,
+        "season_duration_ms": 86400000,
+        "season_neighborhood": null,
+        "scale_neighborhood": null,
+        "step_ms": null
+      },
+      "times_ms": [
+        26.274548999936087,
+        22.388866997061996,
+        21.325674999388866
+      ],
+      "first_call_ms": 26.274548999936087,
+      "cold_process": {
+        "process_wall_ms": 1896.2141660013003,
+        "detect_ms": 25.15895000033197,
+        "rows": 4600,
+        "grid": 4608
+      },
+      "repeat_median_ms": 21.85727099822543,
+      "all_median_ms": 22.388866997061996,
+      "intervals": 306
+    },
+    {
+      "file": "time_series_0.csv",
+      "model": "stable_ar",
+      "rows": 4600,
+      "grid": 4608,
+      "configuration": {
+        "model": "stable_ar",
+        "threshold": 3.0,
+        "percentage": 50.0,
+        "window_duration_ms": 1800000,
+        "direction": "both",
+        "order": 20,
+        "gamma": 1.0,
+        "alpha": 0.9,
+        "season_duration_ms": 86400000,
+        "season_neighborhood": null,
+        "scale_neighborhood": null,
+        "step_ms": null
+      },
+      "times_ms": [
+        44.13058499994804,
+        42.918725001072744,
+        42.76211000251351
+      ],
+      "first_call_ms": 44.13058499994804,
+      "cold_process": {
+        "process_wall_ms": 1928.1148449990724,
+        "detect_ms": 52.822182999079814,
+        "rows": 4600,
+        "grid": 4608
+      },
+      "repeat_median_ms": 42.84041750179313,
+      "all_median_ms": 42.918725001072744,
+      "intervals": 18
+    },
+    {
+      "file": "time_series_0.csv",
+      "model": "seasonal",
+      "rows": 4600,
+      "grid": 4608,
+      "configuration": {
+        "model": "seasonal",
+        "threshold": 3.0,
+        "percentage": 50.0,
+        "window_duration_ms": 1800000,
+        "direction": "both",
+        "order": 20,
+        "gamma": 1.0,
+        "alpha": 0.9,
+        "season_duration_ms": 86400000,
+        "season_neighborhood": null,
+        "scale_neighborhood": null,
+        "step_ms": null
+      },
+      "times_ms": [
+        152.6816340010555,
+        124.38042999929166,
+        131.1751680004818
+      ],
+      "first_call_ms": 152.6816340010555,
+      "cold_process": {
+        "process_wall_ms": 1641.6012450026756,
+        "detect_ms": 133.0068150018633,
+        "rows": 4600,
+        "grid": 4608
+      },
+      "repeat_median_ms": 127.77779899988673,
+      "all_median_ms": 131.1751680004818,
+      "intervals": 96
+    },
+    {
+      "file": "time_series_1.csv",
+      "model": "ar",
+      "rows": 4020,
+      "grid": 4031,
+      "configuration": {
+        "model": "ar",
+        "threshold": 3.0,
+        "percentage": 50.0,
+        "window_duration_ms": 1800000,
+        "direction": "both",
+        "order": 20,
+        "gamma": 1.0,
+        "alpha": 0.9,
+        "season_duration_ms": 86400000,
+        "season_neighborhood": null,
+        "scale_neighborhood": null,
+        "step_ms": null
+      },
+      "times_ms": [
+        32.67389399843523,
+        23.08510700095212,
+        11.767447002057452
+      ],
+      "first_call_ms": 32.67389399843523,
+      "cold_process": {
+        "process_wall_ms": 1345.554378000088,
+        "detect_ms": 15.175420998275513,
+        "rows": 4020,
+        "grid": 4031
+      },
+      "repeat_median_ms": 17.426277001504786,
+      "all_median_ms": 23.08510700095212,
+      "intervals": 188
+    },
+    {
+      "file": "time_series_1.csv",
+      "model": "stable_ar",
+      "rows": 4020,
+      "grid": 4031,
+      "configuration": {
+        "model": "stable_ar",
+        "threshold": 3.0,
+        "percentage": 50.0,
+        "window_duration_ms": 1800000,
+        "direction": "both",
+        "order": 20,
+        "gamma": 1.0,
+        "alpha": 0.9,
+        "season_duration_ms": 86400000,
+        "season_neighborhood": null,
+        "scale_neighborhood": null,
+        "step_ms": null
+      },
+      "times_ms": [
+        56.31841500144219,
+        24.193242999899667,
+        24.213470998802222
+      ],
+      "first_call_ms": 56.31841500144219,
+      "cold_process": {
+        "process_wall_ms": 1362.458797997533,
+        "detect_ms": 28.44738899875665,
+        "rows": 4020,
+        "grid": 4031
+      },
+      "repeat_median_ms": 24.203356999350945,
+      "all_median_ms": 24.213470998802222,
+      "intervals": 20
+    },
+    {
+      "file": "time_series_1.csv",
+      "model": "seasonal",
+      "rows": 4020,
+      "grid": 4031,
+      "configuration": {
+        "model": "seasonal",
+        "threshold": 3.0,
+        "percentage": 50.0,
+        "window_duration_ms": 1800000,
+        "direction": "both",
+        "order": 20,
+        "gamma": 1.0,
+        "alpha": 0.9,
+        "season_duration_ms": 86400000,
+        "season_neighborhood": null,
+        "scale_neighborhood": null,
+        "step_ms": null
+      },
+      "times_ms": [
+        115.17636800272157,
+        119.52131600264693,
+        117.6235450002423
+      ],
+      "first_call_ms": 115.17636800272157,
+      "cold_process": {
+        "process_wall_ms": 1467.8766959987115,
+        "detect_ms": 153.12578099837992,
+        "rows": 4020,
+        "grid": 4031
+      },
+      "repeat_median_ms": 118.57243050144461,
+      "all_median_ms": 117.6235450002423,
+      "intervals": 261
+    },
+    {
+      "file": "time_series_2.csv",
+      "model": "ar",
+      "rows": 6336,
+      "grid": 6336,
+      "configuration": {
+        "model": "ar",
+        "threshold": 3.0,
+        "percentage": 50.0,
+        "window_duration_ms": 1800000,
+        "direction": "both",
+        "order": 20,
+        "gamma": 1.0,
+        "alpha": 0.9,
+        "season_duration_ms": 86400000,
+        "season_neighborhood": null,
+        "scale_neighborhood": null,
+        "step_ms": null
+      },
+      "times_ms": [
+        19.606190002377843,
+        19.83179500166443,
+        21.61687400075607
+      ],
+      "first_call_ms": 19.606190002377843,
+      "cold_process": {
+        "process_wall_ms": 1319.1118690010626,
+        "detect_ms": 19.98463299969444,
+        "rows": 6336,
+        "grid": 6336
+      },
+      "repeat_median_ms": 20.72433450121025,
+      "all_median_ms": 19.83179500166443,
+      "intervals": 122
+    },
+    {
+      "file": "time_series_2.csv",
+      "model": "stable_ar",
+      "rows": 6336,
+      "grid": 6336,
+      "configuration": {
+        "model": "stable_ar",
+        "threshold": 3.0,
+        "percentage": 50.0,
+        "window_duration_ms": 1800000,
+        "direction": "both",
+        "order": 20,
+        "gamma": 1.0,
+        "alpha": 0.9,
+        "season_duration_ms": 86400000,
+        "season_neighborhood": null,
+        "scale_neighborhood": null,
+        "step_ms": null
+      },
+      "times_ms": [
+        67.62442299805116,
+        35.66144800061011,
+        38.533723000000464
+      ],
+      "first_call_ms": 67.62442299805116,
+      "cold_process": {
+        "process_wall_ms": 1365.1999440007785,
+        "detect_ms": 41.81892600172432,
+        "rows": 6336,
+        "grid": 6336
+      },
+      "repeat_median_ms": 37.097585500305286,
+      "all_median_ms": 38.533723000000464,
+      "intervals": 78
+    },
+    {
+      "file": "time_series_2.csv",
+      "model": "seasonal",
+      "rows": 6336,
+      "grid": 6336,
+      "configuration": {
+        "model": "seasonal",
+        "threshold": 3.0,
+        "percentage": 50.0,
+        "window_duration_ms": 1800000,
+        "direction": "both",
+        "order": 20,
+        "gamma": 1.0,
+        "alpha": 0.9,
+        "season_duration_ms": 86400000,
+        "season_neighborhood": null,
+        "scale_neighborhood": null,
+        "step_ms": null
+      },
+      "times_ms": [
+        177.36573499860242,
+        158.53950299788266,
+        161.34636500282795
+      ],
+      "first_call_ms": 177.36573499860242,
+      "cold_process": {
+        "process_wall_ms": 1503.076704000705,
+        "detect_ms": 166.669644000649,
+        "rows": 6336,
+        "grid": 6336
+      },
+      "repeat_median_ms": 159.9429340003553,
+      "all_median_ms": 161.34636500282795,
+      "intervals": 394
+    },
+    {
+      "file": "time_series_3.csv",
+      "model": "ar",
+      "rows": 9216,
+      "grid": 9216,
+      "configuration": {
+        "model": "ar",
+        "threshold": 3.0,
+        "percentage": 50.0,
+        "window_duration_ms": 1800000,
+        "direction": "both",
+        "order": 20,
+        "gamma": 1.0,
+        "alpha": 0.9,
+        "season_duration_ms": 86400000,
+        "season_neighborhood": null,
+        "scale_neighborhood": null,
+        "step_ms": null
+      },
+      "times_ms": [
+        23.78196900099283,
+        76.7741349991411,
+        25.308331998530775
+      ],
+      "first_call_ms": 23.78196900099283,
+      "cold_process": {
+        "process_wall_ms": 1318.2909810020647,
+        "detect_ms": 27.572603998123668,
+        "rows": 9216,
+        "grid": 9216
+      },
+      "repeat_median_ms": 51.041233498835936,
+      "all_median_ms": 25.308331998530775,
+      "intervals": 154
+    },
+    {
+      "file": "time_series_3.csv",
+      "model": "stable_ar",
+      "rows": 9216,
+      "grid": 9216,
+      "configuration": {
+        "model": "stable_ar",
+        "threshold": 3.0,
+        "percentage": 50.0,
+        "window_duration_ms": 1800000,
+        "direction": "both",
+        "order": 20,
+        "gamma": 1.0,
+        "alpha": 0.9,
+        "season_duration_ms": 86400000,
+        "season_neighborhood": null,
+        "scale_neighborhood": null,
+        "step_ms": null
+      },
+      "times_ms": [
+        78.07828899967717,
+        50.4384800005937,
+        50.25620599917602
+      ],
+      "first_call_ms": 78.07828899967717,
+      "cold_process": {
+        "process_wall_ms": 1383.3378689996607,
+        "detect_ms": 57.67008999828249,
+        "rows": 9216,
+        "grid": 9216
+      },
+      "repeat_median_ms": 50.34734299988486,
+      "all_median_ms": 50.4384800005937,
+      "intervals": 34
+    },
+    {
+      "file": "time_series_3.csv",
+      "model": "seasonal",
+      "rows": 9216,
+      "grid": 9216,
+      "configuration": {
+        "model": "seasonal",
+        "threshold": 3.0,
+        "percentage": 50.0,
+        "window_duration_ms": 1800000,
+        "direction": "both",
+        "order": 20,
+        "gamma": 1.0,
+        "alpha": 0.9,
+        "season_duration_ms": 86400000,
+        "season_neighborhood": null,
+        "scale_neighborhood": null,
+        "step_ms": null
+      },
+      "times_ms": [
+        275.62974900138215,
+        213.3116310033074,
+        213.71916799762403
+      ],
+      "first_call_ms": 275.62974900138215,
+      "cold_process": {
+        "process_wall_ms": 1588.4251659990696,
+        "detect_ms": 233.69820999869262,
+        "rows": 9216,
+        "grid": 9216
+      },
+      "repeat_median_ms": 213.51539950046572,
+      "all_median_ms": 213.71916799762403,
+      "intervals": 844
+    }
+  ]
+}
